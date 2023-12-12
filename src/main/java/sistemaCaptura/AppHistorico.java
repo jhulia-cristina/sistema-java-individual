@@ -26,6 +26,7 @@ public class AppHistorico {
         JdbcTemplate con = conexao.getConexaoDoBancoMySQL();
         JdbcTemplate conSer = conexao.getConexaoDoBancoSQLServer();
         HistConsmRecurso histConsmRecurso = new HistConsmRecurso();
+        HistoricoLogin historicoLogin = new HistoricoLogin();
 
         Scanner in = new Scanner(System.in);
         Integer escolha;
@@ -54,6 +55,22 @@ public class AppHistorico {
                     System.out.println("Opção inválida");
             }
         } while (escolha != 2);
+    }
+
+    private static void mostrarHistoricoLogin(Usuario usuario) {
+        List<HistoricoLogin> historicoLogin = usuario.getHistoricoLogin();
+//        System.out.println(historicoLogin);
+        if (historicoLogin.isEmpty()) {
+            System.out.println("O histórico de login está vazio para este usuário.");
+        } else {
+            System.out.println("Histórico de Login para o Usuário " + usuario.getNome() + ":");
+            for (HistoricoLogin historico : historicoLogin) {
+                System.out.println("ID: " + usuario.getIdUsuario());
+                System.out.println("Data e Hora do Login: " + historico.getHorarioLogin());
+                System.out.println("Sucesso: " + historico.isSucesso());
+                System.out.println();
+            }
+        }
     }
 
     private static void cadastrarUsuario(JdbcTemplate con,JdbcTemplate conSer) {
@@ -142,6 +159,12 @@ public class AppHistorico {
                 usuario = new Aluno(usuarios.get(0));
                 System.out.println("Bem vindo Usuario" + usuario.getNome());
             }
+
+            boolean loginComSucesso = true;
+            usuario.registrarTentativaLogin(loginComSucesso);
+
+            mostrarHistoricoLogin(usuario);
+
             Integer opcaoUsuario;
 
             do {

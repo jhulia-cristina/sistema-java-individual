@@ -1,5 +1,6 @@
 sistemaCaptura\user\AdmNowl.class
 sistemaCaptura\slack\BotSlack.class
+sistemaCaptura\HistoricoLogin.class
 sistemaCaptura\PermissaoProcesso.class
 sistemaCaptura\user\Usuario.class
 sistemaCaptura\user\Adiministrador.class

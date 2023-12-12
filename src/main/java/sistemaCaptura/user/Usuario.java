@@ -1,5 +1,11 @@
 package sistemaCaptura.user;
 
+import sistemaCaptura.HistoricoLogin;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Usuario {
     private Integer idUsuario;
     private String nome;
@@ -9,7 +15,15 @@ public class Usuario {
     protected Integer fkInstituicao;
     protected Integer fkTipoUsuario;
 
+    private HistoricoLogin historicoLoginAtual;
+
+    private List<HistoricoLogin> historicoLogin;
+
     public Usuario() {
+    }
+
+    public Usuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Usuario(Integer idUsuario, String nome, String email, String senha, Integer fkInstituicao, Integer fkTipoUsuario) {
@@ -19,6 +33,16 @@ public class Usuario {
         this.senha = senha;
         this.fkInstituicao = fkInstituicao;
         this.fkTipoUsuario = fkTipoUsuario;
+        this.historicoLogin = new ArrayList<>();
+    }
+
+    public void registrarTentativaLogin(boolean sucesso) {
+        if (historicoLogin == null) {
+            historicoLogin = new ArrayList<>();
+        }
+        HistoricoLogin historico = new HistoricoLogin(this.idUsuario, LocalDateTime.now(), sucesso);
+        historicoLogin.add(historico);
+        historicoLoginAtual = historico;
     }
 
 
@@ -68,6 +92,14 @@ public class Usuario {
 
     public void setFkTipoUsuario(Integer fkTipoUsuario) {
         this.fkTipoUsuario = fkTipoUsuario;
+    }
+
+    public List<HistoricoLogin> getHistoricoLogin() {
+        return historicoLogin;
+    }
+
+    public void setHistoricoLogin(List<HistoricoLogin> historicoLogin) {
+        this.historicoLogin = historicoLogin;
     }
 
 
